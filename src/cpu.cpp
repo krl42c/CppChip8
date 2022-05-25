@@ -21,38 +21,42 @@ uint8_t CPU::decodeOp() {
   return decoded;
 }
 
-
 void CPU::executeCycle() {
   switch (decodeOp()) {
     case 0x1:
-      /*
-      Set program counter to nnn
-      nnn - lowest 12 bits => perform AND on opcode
-      */
-      pc = opcode & 0x0FFF;
+      cls();
       break;
     case 0x2:
-      /*
-      2nnn - CALL addr
-      Save current pc on stack
-      Get address from nnn by performing AND on opcode into pc
-      */
-      memory[sp] = pc & 0x00FF;
-      sp += 1;
-      memory[sp] = (pc & 0x00FF) >> 8;
-      sp += 1;
-      pc = opcode & 0x0FFF;
+      returnFromSubroutine();
       break;
     case 0x3:
-      uint8_t reg_num = (opcode & 0x0F00) >> 8;
-      if (v_regs[reg_num] == (opcode & 0x00FF)) {
-        pc += 2;
-      }
+      callSubroutine();
       break;
   }
 }
 
 void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
   this->memory = memory;
+}
+
+/* INSTRUCTION IMPLEMENTATIONS */
+void CPU::cls() {
+  
+}
+
+void CPU::returnFromSubroutine() {
+  this->sp--;
+  this->pc = this->memory[this->sp];
+  this->pc += 2;
+}
+
+void CPU::jumpToAddress() {
+  this->pc = this->opcode & 0x0FFF;
+}
+
+void CPU::callSubroutine() {
+  this->memory[this->sp] = this->pc;
+  this->sp--;
+  this->pc = this->opcode & 0x0FFF;
 }
 

@@ -10,6 +10,19 @@ public:
   void executeCycle();
   void setMemory(std::array<uint8_t, 0xFFF> memory);
 
+  // Instructions
+  void cls(); // 00E0 - CLS
+  void returnFromSubroutine(); // 00EE - RET
+  void jumpToAddress(); // 1nnn - JP addr
+  void callSubroutine(); // 2nnn - CALL addr
+  // Logical instructions  
+  void skipNextEqualVxKk();
+  void skipNextNotEqualVxKk();
+  void skipNextEqualVxVy();
+  void setVxKk();
+  void setVxVxPlusKk();
+  void setVxVy();
+
 private:
   std::array<uint8_t, 0xFFF> memory;
   std::array<uint8_t, 16> v_regs;
