@@ -25,6 +25,16 @@ public:
   void setVxKk();
   void setVxVxPlusKk();
   void setVxVy();
+
+  void logicalOR_VX();
+  void logicalAND_VX();
+  void logicalXOR_VX();
+  
+
+  // Bit util
+  uint8_t shiftBitsVREG_X(uint8_t opcode);
+  uint8_t shiftBitsVREG_Y(uint8_t opcode);
+  uint8_t getKK(uint8_t opcode);
   
 private:
   std::array<uint8_t, 0xFFF> memory;
