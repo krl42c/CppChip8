@@ -14,11 +14,11 @@ public:
   void setMemory(std::array<uint8_t, 0xFFF> memory);
 
   // Instructions
-  void cls(); // 00E0 - CLS
+  void cls();                  // 00E0 - CLS
   void returnFromSubroutine(); // 00EE - RET
-  void jumpToAddress(); // 1nnn - JP addr
-  void callSubroutine(); // 2nnn - CALL addr
-  // Logical instructions  
+  void jumpToAddress();        // 1nnn - JP addr
+  void callSubroutine();       // 2nnn - CALL addr
+  // Logical instructions
   void skipNextEqualVxKk();
   void skipNextNotEqualVxKk();
   void skipNextEqualVxVy();
@@ -29,13 +29,12 @@ public:
   void logicalOR_VX();
   void logicalAND_VX();
   void logicalXOR_VX();
-  
 
   // Bit util
   uint8_t shiftBitsVREG_X(uint8_t opcode);
   uint8_t shiftBitsVREG_Y(uint8_t opcode);
   uint8_t getKK(uint8_t opcode);
-  
+
 private:
   std::array<uint8_t, 0xFFF> memory;
   std::array<uint8_t, 16> v_regs;

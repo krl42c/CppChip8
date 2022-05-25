@@ -1,8 +1,8 @@
+#include "cpu.h"
+#include <functional>
 #include <iostream>
 #include <map>
-#include <functional>
 #include <string>
-#include "cpu.h"
 
 #ifndef CHIP8_H
 #define CHIP8_H
@@ -13,7 +13,7 @@ public:
   ~Chip8();
   void loadROM(std::string path);
   void run();
-  
+
 private:
   std::map<int, std::function<void()>> instructions;
   CPU cpu;

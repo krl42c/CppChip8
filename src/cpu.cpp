@@ -1,6 +1,6 @@
+#include "cpu.h"
 #include <array>
 #include <iostream>
-#include "cpu.h"
 
 CPU::CPU() {
   this->pc = 0;
@@ -8,9 +8,7 @@ CPU::CPU() {
   this->memory.fill(0);
 }
 
-CPU::~CPU() {
-
-}
+CPU::~CPU() {}
 
 uint8_t CPU::decodeOp() {
   uint8_t decoded;
@@ -29,9 +27,7 @@ void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
 }
 
 /* INSTRUCTION IMPLEMENTATIONS */
-void CPU::cls() {
-
-}
+void CPU::cls() {}
 
 void CPU::returnFromSubroutine() {
   this->sp--;
@@ -39,9 +35,7 @@ void CPU::returnFromSubroutine() {
   this->pc += 2;
 }
 
-void CPU::jumpToAddress() {
-  this->pc = this->opcode & 0x0FFF;
-}
+void CPU::jumpToAddress() { this->pc = this->opcode & 0x0FFF; }
 
 void CPU::callSubroutine() {
   this->memory[this->sp] = this->pc;
@@ -53,7 +47,7 @@ void CPU::skipNextEqualVxKk() {
   uint8_t vreg = shiftBitsVREG_X(this->opcode);
   uint8_t kk = getKK(this->opcode);
 
-  if(this->v_regs[vreg] == kk) 
+  if (this->v_regs[vreg] == kk)
     this->pc += 4; // Skip instruction
   else
     this->pc += 2;
@@ -63,10 +57,10 @@ void CPU::skipNextNotEqualVxKk() {
   uint8_t target = this->shiftBitsVREG_X(this->opcode);
   uint8_t kk = this->getKK(this->opcode);
 
-  if(this->v_regs[target] != kk) 
-    this->pc +=4; // Skip instruction
+  if (this->v_regs[target] != kk)
+    this->pc += 4; // Skip instruction
   else
-    this->pc +=2;
+    this->pc += 2;
 }
 
 void CPU::setVxKk() {
@@ -89,7 +83,7 @@ void CPU::setVxVy() {
   pc += 2;
 }
 
-void CPU::logicalOR_VX() { 
+void CPU::logicalOR_VX() {
   /* 8xy1 - OR Vx, Vy */
   uint8_t vx = shiftBitsVREG_X(opcode);
   uint8_t vy = shiftBitsVREG_Y(opcode);
@@ -111,15 +105,8 @@ void CPU::logicalXOR_VX() {
   pc += 2;
 }
 
-uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) {
-  return (opcode & 0x0F00) >> 8;
-}
+uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) { return (opcode & 0x0F00) >> 8; }
 
-uint8_t CPU::shiftBitsVREG_Y(uint8_t opcode) {
-  return (opcode & 0x00F0) >> 4;
-}
+uint8_t CPU::shiftBitsVREG_Y(uint8_t opcode) { return (opcode & 0x00F0) >> 4; }
 
-uint8_t CPU::getKK(uint8_t opcode) {
-  return (opcode & 0x00FF);
-}
-
+uint8_t CPU::getKK(uint8_t opcode) { return (opcode & 0x00FF); }
