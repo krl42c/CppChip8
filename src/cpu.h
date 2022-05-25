@@ -1,4 +1,7 @@
 #include <array>
+#include <functional>
+#include <map>
+
 #ifndef CPU_H
 #define CPU_H
 
@@ -22,7 +25,7 @@ public:
   void setVxKk();
   void setVxVxPlusKk();
   void setVxVy();
-
+  
 private:
   std::array<uint8_t, 0xFFF> memory;
   std::array<uint8_t, 16> v_regs;

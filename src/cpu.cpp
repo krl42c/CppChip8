@@ -3,7 +3,9 @@
 #include "cpu.h"
 
 CPU::CPU() {
-
+  this->pc = 0;
+  this->sp = 0;
+  this->memory.fill(0);
 }
 
 CPU::~CPU() {
@@ -18,21 +20,8 @@ uint8_t CPU::decodeOp() {
 
   decoded = (this->opcode & 0xF000) >> 12;
   std::cout << decoded << "\n";
-  return decoded;
-}
 
-void CPU::executeCycle() {
-  switch (decodeOp()) {
-    case 0x1:
-      cls();
-      break;
-    case 0x2:
-      returnFromSubroutine();
-      break;
-    case 0x3:
-      callSubroutine();
-      break;
-  }
+  return decoded;
 }
 
 void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
@@ -41,7 +30,7 @@ void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
 
 /* INSTRUCTION IMPLEMENTATIONS */
 void CPU::cls() {
-  
+
 }
 
 void CPU::returnFromSubroutine() {
