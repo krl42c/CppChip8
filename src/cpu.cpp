@@ -105,8 +105,8 @@ void CPU::logicalXOR_VX() {
   pc += 2;
 }
 
-uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) { return (opcode & 0x0F00) >> 8; }
+constexpr uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) { return (opcode & 0x0F00) >> 8; }
 
-uint8_t CPU::shiftBitsVREG_Y(uint8_t opcode) { return (opcode & 0x00F0) >> 4; }
+constexpr uint8_t CPU::shiftBitsVREG_Y(uint8_t opcode) { return (opcode & 0x00F0) >> 4; }
 
-uint8_t CPU::getKK(uint8_t opcode) { return (opcode & 0x00FF); }
+constexpr uint8_t CPU::getKK(uint8_t opcode) { return (opcode & 0x00FF); }
