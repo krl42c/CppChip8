@@ -10,6 +10,7 @@
 class Chip8 {
 public:
   Chip8(CPU cpu);
+  Chip8();
   ~Chip8();
   void loadROM(std::string path);
   void run();

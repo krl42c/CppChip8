@@ -1,6 +1,10 @@
 #include <array>
+#include <vector>
 #include <functional>
 #include <map>
+#include <fstream>
+#include <algorithm>
+#include <iterator>
 
 #ifndef CPU_H
 #define CPU_H

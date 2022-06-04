@@ -3,69 +3,69 @@
 #include <iostream>
 
 CPU::CPU() {
-  this->pc = 0;
-  this->sp = 0;
-  this->memory.fill(0);
+  pc = 0;
+  sp = 0;
+  memory.fill(0);
 }
 
 CPU::~CPU() {}
 
 uint8_t CPU::decodeOp() {
   uint8_t decoded;
-  this->opcode = this->memory[this->pc];
-  this->opcode = this->opcode << 8;
-  this->opcode += this->memory[this->pc + 1];
+  opcode = memory[pc];
+  opcode = opcode << 8;
+  opcode += memory[pc + 1];
 
-  decoded = (this->opcode & 0xF000) >> 12;
+  decoded = (opcode & 0xF000) >> 12;
   std::cout << decoded << "\n";
 
   return decoded;
 }
 
 void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
-  this->memory = memory;
+  memory = memory;
 }
 
 /* INSTRUCTION IMPLEMENTATIONS */
 void CPU::cls() {}
 
 void CPU::returnFromSubroutine() {
-  this->sp--;
-  this->pc = this->memory[this->sp];
-  this->pc += 2;
+  sp--;
+  pc = memory[this->sp];
+  pc += 2;
 }
 
-void CPU::jumpToAddress() { this->pc = this->opcode & 0x0FFF; }
+void CPU::jumpToAddress() { pc = opcode & 0x0FFF; }
 
 void CPU::callSubroutine() {
-  this->memory[this->sp] = this->pc;
-  this->sp--;
-  this->pc = this->opcode & 0x0FFF;
+  memory[sp] = pc;
+  sp--;
+  pc = opcode & 0x0FFF;
 }
 
 void CPU::skipNextEqualVxKk() {
-  uint8_t vreg = shiftBitsVREG_X(this->opcode);
-  uint8_t kk = getKK(this->opcode);
+  uint8_t vreg = shiftBitsVREG_X(opcode);
+  uint8_t kk = getKK(opcode);
 
-  if (this->v_regs[vreg] == kk)
-    this->pc += 4; // Skip instruction
+  if (v_regs[vreg] == kk)
+    pc += 4; // Skip instruction
   else
-    this->pc += 2;
+    pc += 2;
 }
 
 void CPU::skipNextNotEqualVxKk() {
-  uint8_t target = this->shiftBitsVREG_X(this->opcode);
-  uint8_t kk = this->getKK(this->opcode);
+  uint8_t target = shiftBitsVREG_X(opcode);
+  uint8_t kk = getKK(opcode);
 
-  if (this->v_regs[target] != kk)
-    this->pc += 4; // Skip instruction
+  if (v_regs[target] != kk)
+    pc += 4; // Skip instruction
   else
-    this->pc += 2;
+    pc += 2;
 }
 
 void CPU::setVxKk() {
-  v_regs[shiftBitsVREG_X(this->opcode)] = getKK(opcode);
-  this->pc += 2;
+  v_regs[shiftBitsVREG_X(opcode)] = getKK(opcode);
+  pc += 2;
 }
 
 void CPU::setVxVxPlusKk() {
