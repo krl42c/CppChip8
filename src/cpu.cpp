@@ -2,32 +2,39 @@
 #include <array>
 #include <iostream>
 
+#define LOG_BYTES(y,x) std::cout << y << " : " << (unsigned)x << "\n" 
+
 CPU::CPU() {
   pc = 0;
   sp = 0;
-  memory.fill(0);
+  opcode = 0;
+  //memory.fill(0);
 }
 
 CPU::~CPU() {}
 
 uint8_t CPU::decodeOp() {
   uint8_t decoded;
-  opcode = memory[pc];
-  opcode = opcode << 8;
-  opcode += memory[pc + 1];
+  int opcode;
+
+  opcode = memory[pc+0];
+  printf("DATA AT PC: \\x%2x          ", opcode);
+  opcode = (memory[pc] << 8) | memory[pc+1];
 
   decoded = (opcode & 0xF000) >> 12;
-  std::cout << decoded << "\n";
+  printf("FULL OPCODE: \\x%2x \n", opcode);
 
+  pc += 1;
   return decoded;
 }
 
 void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
-  memory = memory;
+  this->memory = memory;
 }
 
 /* INSTRUCTION IMPLEMENTATIONS */
-void CPU::cls() {}
+void CPU::cls() {
+}
 
 void CPU::returnFromSubroutine() {
   sp--;
