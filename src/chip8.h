@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 
 #ifndef CHIP8_H
 #define CHIP8_H
@@ -14,9 +15,8 @@ public:
   ~Chip8();
   void loadROM(std::string path);
   void run();
-
+  std::shared_ptr<CPU> cpu;
 private:
   std::map<int, std::function<void()>> instructions;
-  CPU cpu;
 };
 #endif

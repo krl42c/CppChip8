@@ -57,9 +57,11 @@ public:
 
 
   // Bit util
-  constexpr uint8_t shiftBitsVREG_X(uint8_t opcode);
-  constexpr uint8_t shiftBitsVREG_Y(uint8_t opcode);
-  constexpr uint8_t getKK(uint8_t opcode);
+  uint8_t shiftBitsVREG_X(uint8_t opcode);
+  uint8_t shiftBitsVREG_Y(uint8_t opcode);
+  uint8_t getKK(uint8_t opcode);
+
+  uint16_t getPC();
 
 private:
   std::array<uint8_t, 0xFFF> memory;
@@ -69,7 +71,7 @@ private:
   uint8_t sound_timer;
   uint16_t pc;
   uint16_t sp;
-  uint8_t opcode;
+  int opcode;
 };
 
 #endif

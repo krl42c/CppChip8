@@ -8,22 +8,23 @@ CPU::CPU() {
   pc = 0;
   sp = 0;
   opcode = 0;
+  std::cout << "Created CPU\n";
   //memory.fill(0);
 }
 
-CPU::~CPU() {}
+CPU::~CPU() {
+  std::cout << "Destroyed CPU\n";
+}
 
 uint8_t CPU::decodeOp() {
   uint8_t decoded;
-  int opcode;
-  opcode = memory[pc+0];
+  std::cout << "\nPC ON DECODEOP() :" << pc << "\n";
+  opcode = memory[pc];
   printf("DATA AT PC: \\x%2x          ", opcode);
   opcode = (memory[pc] << 8) | memory[pc+1];
 
   decoded = (opcode & 0xF000) >> 12;
   printf("FULL OPCODE: \\x%2x \n", opcode);
-
-  pc += 1;
   return decoded;
 }
 
@@ -33,6 +34,7 @@ void CPU::setMemory(std::array<uint8_t, 0xFFF> memory) {
 
 /* INSTRUCTION IMPLEMENTATIONS */
 void CPU::cls() {
+  pc += 2;
 }
 
 void CPU::returnFromSubroutine() {
@@ -60,13 +62,18 @@ void CPU::skipNextEqualVxKk() {
 }
 
 void CPU::skipNextNotEqualVxKk() {
+  std::cout << "Working?\n";
   uint8_t target = shiftBitsVREG_X(opcode);
   uint8_t kk = getKK(opcode);
 
-  if (v_regs[target] != kk)
-    pc += 4; // Skip instruction
-  else
-    pc += 2;
+  if (v_regs[target] != kk) {
+    std::cout << pc << " skip";
+    this->pc += 4; // Skip instruction
+  }
+  else {
+    this->pc += 2;
+    std::cout << pc << " not skip";
+  }
 }
 
 void CPU::setVxKk() {
@@ -112,12 +119,15 @@ void CPU::logicalXOR_VX() {
 }
 
 void CPU::SHR() {
+  pc +=2;
 
 }
 void CPU::SUBN() {
+  pc +=2 ;
 
 }
 void CPU::SHL() {
+  pc +=2 ;
 
 }
 void CPU::SNE() {
@@ -174,8 +184,10 @@ void CPU::LD_VX_I() {
 
 }
 
-constexpr uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) { return (opcode & 0x0F00) >> 8; }
+uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) { return (opcode & 0x0F00) >> 8; }
 
-constexpr uint8_t CPU::shiftBitsVREG_Y(uint8_t opcode) { return (opcode & 0x00F0) >> 4; }
+uint8_t CPU::shiftBitsVREG_Y(uint8_t opcode) { return (opcode & 0x00F0) >> 4; }
 
-constexpr uint8_t CPU::getKK(uint8_t opcode) { return (opcode & 0x00FF); }
+uint8_t CPU::getKK(uint8_t opcode) { return (opcode & 0x00FF); }
+
+uint16_t CPU::getPC() { return pc; }
