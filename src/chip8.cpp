@@ -13,8 +13,8 @@ Chip8::Chip8() {
   instructions.insert({8, [&cpu]() { cpu.setVxVxPlusKk(); }});
   instructions.insert({9, [&cpu]() { cpu.setVxVy(); }});
   instructions.insert({10, [&cpu]() { cpu.logicalOR_VX(); }});
-  instructions.insert({11, [&cpu]() { cpu.logicalAND_VX(); }});
-  instructions.insert({12, [&cpu]() { cpu.logicalXOR_VX(); }});
+  instructions.insert({0xb, [&cpu]() { cpu.logicalAND_VX(); }});
+  instructions.insert({0xc, [&cpu]() { cpu.logicalXOR_VX(); }}); // 8xy4
 }
 
 Chip8::~Chip8() {}
@@ -33,6 +33,8 @@ void Chip8::loadROM(std::string path) {
 
   cpu.setMemory(mem);
   for(auto c : mem) {
-    instructions[cpu.decodeOp()]();
+    uint8_t decoded = cpu.decodeOp();
+    printf("\\x%2x DECODED \n", decoded);
+    instructions[decoded]();
   }
 }

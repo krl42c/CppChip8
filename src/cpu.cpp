@@ -16,7 +16,6 @@ CPU::~CPU() {}
 uint8_t CPU::decodeOp() {
   uint8_t decoded;
   int opcode;
-
   opcode = memory[pc+0];
   printf("DATA AT PC: \\x%2x          ", opcode);
   opcode = (memory[pc] << 8) | memory[pc+1];
@@ -110,6 +109,69 @@ void CPU::logicalXOR_VX() {
   uint8_t vy = shiftBitsVREG_Y(opcode);
   v_regs[vx] = v_regs[vx] ^ v_regs[vy];
   pc += 2;
+}
+
+void CPU::SHR() {
+
+}
+void CPU::SUBN() {
+
+}
+void CPU::SHL() {
+
+}
+void CPU::SNE() {
+
+}
+
+void CPU::LD() {
+
+}
+void CPU::JPV0() {
+
+}
+void CPU::RND() {
+
+}
+
+void CPU::DRW() {
+
+}
+void CPU::SKP() {
+
+}
+void CPU::SKNP() {
+
+}
+void CPU::LD_VX_DT() {
+
+}
+void CPU::LD_VX_K() {
+
+}
+void CPU::LD_DT_VX() {
+
+}
+void CPU::LD_ST_VX() {
+
+}
+void CPU::ADD_I_VX() {
+
+} 
+
+void CPU::LD_F_VX() {
+
+}
+
+void CPU::LD_B_BX() {
+
+}
+
+void CPU::LD_I_VX() {
+
+}
+void CPU::LD_VX_I() {
+
 }
 
 constexpr uint8_t CPU::shiftBitsVREG_X(uint8_t opcode) { return (opcode & 0x0F00) >> 8; }

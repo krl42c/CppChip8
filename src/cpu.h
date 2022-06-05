@@ -32,7 +32,29 @@ public:
 
   void logicalOR_VX();
   void logicalAND_VX();
-  void logicalXOR_VX();
+  void logicalXOR_VX(); // 8xy4
+  void logicalSUB_VX();
+
+  void SHR();
+  void SUBN();
+  void SHL();
+  void SNE();
+  void LD();
+  void JPV0();
+  void RND();
+  void DRW();
+  void SKP();
+  void SKNP();
+  void LD_VX_DT();
+  void LD_VX_K();
+  void LD_DT_VX();
+  void LD_ST_VX();
+  void ADD_I_VX();
+  void LD_F_VX();
+  void LD_B_BX();
+  void LD_I_VX();
+  void LD_VX_I();
+
 
   // Bit util
   constexpr uint8_t shiftBitsVREG_X(uint8_t opcode);
