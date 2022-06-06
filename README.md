@@ -1,6 +1,6 @@
 # CHIP-8 Emulator
 WIP
 
-* Progress
+## Progress
 
 [X] Instruction Dissasembler
