@@ -14,6 +14,7 @@ public:
   Chip8();
   ~Chip8();
   void loadROM(std::string path);
+  bool loadROM_A(std::string path);
   void run();
   std::shared_ptr<CPU> cpu;
 private:

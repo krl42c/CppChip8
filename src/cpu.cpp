@@ -2,7 +2,7 @@
 #include <array>
 #include <iostream>
 
-#define LOG_BYTES(y,x) std::cout << y << " : " << (unsigned)x << "\n" 
+#define LOG_EVENT(event) std::cout << event << "\n"
 
 CPU::CPU() {
   pc = 0;
@@ -18,9 +18,7 @@ CPU::~CPU() {
 
 uint8_t CPU::decodeOp() {
   uint8_t decoded;
-  std::cout << "\nPC ON DECODEOP() :" << pc << "\n";
   opcode = memory[pc];
-  printf("DATA AT PC: \\x%2x          ", opcode);
   opcode = (memory[pc] << 8) | memory[pc+1];
 
   decoded = (opcode & 0xF000) >> 12;
@@ -38,16 +36,20 @@ void CPU::cls() {
 }
 
 void CPU::returnFromSubroutine() {
-  sp--;
-  pc = memory[this->sp];
+  LOG_EVENT("RETURN_FROM_SUBROUTINE");
+  if(sp > 0)
+    sp--;
+  pc = memory[sp];
   pc += 2;
 }
 
 void CPU::jumpToAddress() { pc = opcode & 0x0FFF; }
 
 void CPU::callSubroutine() {
+  LOG_EVENT("CALL_SUBROUTINE");
   memory[sp] = pc;
-  sp--;
+  if(sp > 0)
+    sp--;
   pc = opcode & 0x0FFF;
 }
 
@@ -62,17 +64,15 @@ void CPU::skipNextEqualVxKk() {
 }
 
 void CPU::skipNextNotEqualVxKk() {
-  std::cout << "Working?\n";
+  LOG_EVENT("SKIP_NEXT_NOT_EQUAL_VX_KK");
   uint8_t target = shiftBitsVREG_X(opcode);
   uint8_t kk = getKK(opcode);
 
   if (v_regs[target] != kk) {
-    std::cout << pc << " skip";
     this->pc += 4; // Skip instruction
   }
   else {
     this->pc += 2;
-    std::cout << pc << " not skip";
   }
 }
 
@@ -119,6 +119,8 @@ void CPU::logicalXOR_VX() {
 }
 
 void CPU::SHR() {
+  v_regs[0xF] = v_regs[shiftBitsVREG_X(opcode)] & 0x1;
+  v_regs[shiftBitsVREG_X(opcode)] >>= 1;
   pc +=2;
 
 }
